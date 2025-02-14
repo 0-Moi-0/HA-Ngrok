@@ -1,4 +1,6 @@
-FROM ghcr.io/hassio-addons/base:14.0.0
+ARG BUILD_FROM
+FROM $BUILD_FROM
+#FROM ghcr.io/hassio-addons/base:14.0.0
 
 # Instala dependencias necesarias
 RUN apk add --no-cache curl jq
@@ -8,4 +10,4 @@ COPY run.sh /run.sh
 RUN chmod +x /run.sh
 
 # Define el comando de inicio
-CMD ["/run.sh"]
+CMD [ "/run.sh" ]
