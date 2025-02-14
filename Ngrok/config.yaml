@@ -1,4 +1,4 @@
-ngrok_tunnel:
+HA_Ngrok:
   name: "HA_Ngrok"
   version: "1.0.0"
   slug: "HA_Ngrok"
