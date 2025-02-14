@@ -3,7 +3,6 @@
     "version": "1.0.0",
     "slug": "HA_Ngrok",
     "description": "Genera un túnel Ngrok en Home Assistant OS.",
-    "#url": "https://github.com/0-Moi-0/HA-Ngrok",
     "arch": ["armv7", "armhf", "aarch64", "amd64", "i386"],
     "startup": "application",
     "boot": "auto",
@@ -15,13 +14,8 @@
       "authtoken": "str",
       "domain": "str"
     },
-    "#init": false,
     "map": ["config:rw"],
     "host_network": true,
     "privileged": ["NET_ADMIN"],
-    "#devices": ["/dev/net/tun"],
-    "#image": "ghcr.io/0-Moi-0/ngrok-addon-{arch}",
-    "#dockerfile": "Dockerfile",
-    "#run": "run.sh"
   }
   
