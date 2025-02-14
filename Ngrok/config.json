@@ -20,7 +20,7 @@
     "host_network": true,
     "privileged": ["NET_ADMIN"],
     "devices": ["/dev/net/tun"],
-    "image": "ghcr.io/0-Moi-0/ngrok-addon",
+    "image": "ghcr.io/0-Moi-0/ngrok-addon-{arch}",
     "dockerfile": "Dockerfile",
     "run": "run.sh"
   }
