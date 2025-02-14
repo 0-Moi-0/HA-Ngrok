@@ -1,0 +1,29 @@
+ngrok_tunnel:
+  name: "HA_Ngrok"
+  version: "1.0.0"
+  slug: "HA_Ngrok"
+  description: "Genera un túnel Ngrok en Home Assistant OS."
+  url: "https://github.com/tu-repo/ngrok-addon"
+  arch:
+    - "armhf"
+    - "armv7"
+    - "aarch64"
+  startup: "application"
+  boot: "auto"
+  options:
+    authtoken: ""  # Tu Authtoken de Ngrok
+    domain: ""     # Tu dominio personalizado
+  schema:
+    authtoken: str
+    domain: str
+  init: false
+  map:
+    - "config:rw"
+  host_network: true
+  privileged:
+    - "NET_ADMIN"
+  devices:
+    - "/dev/net/tun"
+  image: "ghcr.io/tu-usuario/ngrok-addon"
+  dockerfile: "Dockerfile"
+  run: "run.sh"
