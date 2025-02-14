@@ -1,13 +1,8 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
-#FROM ghcr.io/hassio-addons/base:14.0.0
 
-# Instala dependencias necesarias
-#RUN apk add --no-cache curl jq
+# Copy data for add-on
+COPY run.sh /
+RUN chmod a+x /run.sh
 
-# Copia el script de ejecución
-COPY run.sh /run.sh
-RUN chmod +x /run.sh
-
-# Define el comando de inicio
 CMD [ "/run.sh" ]
