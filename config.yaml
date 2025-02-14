@@ -3,7 +3,7 @@ ngrok_tunnel:
   version: "1.0.0"
   slug: "HA_Ngrok"
   description: "Genera un túnel Ngrok en Home Assistant OS."
-  url: "https://github.com/tu-repo/ngrok-addon"
+  url: "https://github.com/0-Moi-0/HA-Ngrok"
   arch:
     - "armhf"
     - "armv7"
@@ -24,6 +24,6 @@ ngrok_tunnel:
     - "NET_ADMIN"
   devices:
     - "/dev/net/tun"
-  image: "ghcr.io/tu-usuario/ngrok-addon"
+  image: "ghcr.io/0-Moi-0/ngrok-addon"
   dockerfile: "Dockerfile"
   run: "run.sh"
