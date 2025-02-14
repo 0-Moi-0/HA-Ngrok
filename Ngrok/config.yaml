@@ -23,11 +23,11 @@
     server_port: 8123
   map:
     - config:rw
-  host_network: true
-  privileged:
-    - NET_ADMIN
-  devices:
-    - /dev/net/tun
+  #host_network: true
+  #privileged:
+    #- NET_ADMIN
+  #devices:
+    #- /dev/net/tun
   #image: ghcr.io/0-Moi-0/ngrok-addon
-  dockerfile: Dockerfile
-  run: run.sh
+  #dockerfile: Dockerfile
+  #run: run.sh
