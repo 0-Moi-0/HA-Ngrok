@@ -1,6 +1,6 @@
 #HA_Ngrok:
 name: "HA_Ngrok"
-version: "1.0.2"
+version: "1.0.3"
 slug: "HA_Ngrok"
 description: "Genera un túnel Ngrok en Home Assistant OS."
 #url: "https://github.com/0-Moi-0/HA-Ngrok"
