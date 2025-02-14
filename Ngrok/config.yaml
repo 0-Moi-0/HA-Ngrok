@@ -1,9 +1,9 @@
-HA_Ngrok:
+#HA_Ngrok:
   name: "HA_Ngrok"
   version: "1.0.0"
   slug: "HA_Ngrok"
   description: "Genera un túnel Ngrok en Home Assistant OS."
-  url: "https://github.com/0-Moi-0/HA-Ngrok"
+  #url: "https://github.com/0-Moi-0/HA-Ngrok"
   arch:
   - armhf
   - armv7
@@ -12,13 +12,15 @@ HA_Ngrok:
   - i386
   startup: application
   boot: auto
+  init: false
   options:
     authtoken: ""  # Tu Authtoken de Ngrok
     domain: ""     # Tu dominio personalizado
   schema:
     authtoken: str
     domain: str
-  init: false
+  http:
+    server_port: 8123
   map:
     - config:rw
   host_network: true
