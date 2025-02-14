@@ -7,15 +7,17 @@
     "startup": "application",
     "boot": "auto",
     "options": {
-      "authtoken": "",
+      "authtoken": ""
       "domain": ""
     },
     "schema": {
-      "authtoken": "str",
+      "authtoken": "str"
       "domain": "str"
     },
-    "map": ["config:rw"],
+  {
+    "privileged": ["NET_ADMIN", "SYS_ADMIN"],
     "host_network": true,
-    "privileged": ["NET_ADMIN"],
+    "map": ["config", "ssl", "addons", "backup", "share"]
+}, 
+
   }
-  
