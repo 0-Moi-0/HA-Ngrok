@@ -4,7 +4,7 @@
     "slug": "HA_Ngrok",
     "description": "Genera un túnel Ngrok en Home Assistant OS.",
     "url": "https://github.com/0-Moi-0/HA-Ngrok",
-    "arch": ["armhf", "armv7", "aarch64"],
+    "arch": ["armv7", "armhf", "aarch64", "amd64", "i386"],
     "startup": "application",
     "boot": "auto",
     "options": {
