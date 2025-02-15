@@ -18,6 +18,10 @@
     "privileged": ["NET_ADMIN", "SYS_ADMIN"],
     "host_network": true,
     "map": ["config", "ssl", "addons", "backup", "share"]
+    "init": false,
+    "devices": ["/dev/net/tun"],
+    "dockerfile": "Dockerfile",
+      "run": "run.sh"
 }, 
 
   }
