@@ -1,4 +1,5 @@
-FROM homeassistant/amd64-base:latest
+ARG BUILD_FROM
+FROM $BUILD_FROM
 
 # Copia el script de ejecución
 COPY run.sh /run.sh
