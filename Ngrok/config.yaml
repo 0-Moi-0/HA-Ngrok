@@ -1,13 +1,12 @@
-ngrok_tunnel:
   name: "HA_Ngrok"
-  version: "2.0.0"
+  version: "2.0.1"
   slug: "HA_Ngrok"
   description: "Genera un túnel Ngrok en Home Assistant OS."
   url: "https://github.com/tu-repo/ngrok-addon"
   arch:
-    - "armhf"
-    - "armv7"
-    - "aarch64"
+    - armhf
+    - armv7
+    - aarch64
   startup: "application"
   boot: "auto"
   options:
