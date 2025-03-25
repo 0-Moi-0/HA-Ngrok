@@ -1,0 +1,18 @@
+{
+  "name": "Ngrok Tunnel",
+  "version": "1.0.0",
+  "slug": "ngrok_tunnel",
+  "description": "Crea un túnel Ngrok para acceder a tu instancia de Home Assistant.",
+  "arch": ["aarch64", "amd64", "armv7", "i386"],
+  "init": false,
+  "image": "0-moi-0/ha-ngrok-{ARCH}",
+  "map": ["config:rw"],
+  "options": {
+    "authtoken": "",
+    "domain": ""
+  },
+  "schema": {
+    "authtoken": "str?",
+    "domain": "str?"
+  }
+}
