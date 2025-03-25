@@ -3,7 +3,11 @@ version: "1.0.0"
 slug: ngrok_tunnel
 description: Crea un túnel seguro a tu instancia de Home Assistant usando Ngrok.
 arch:
-  - aarch64  # Ajusta según tu Raspberry Pi
+  - aarch64 
+  - amd64
+  - armhf
+  - armv7
+  - i386
 url: "https://github.com/0-Moi-0/HA-Ngrok"  # Reemplaza con tu repositorio
 startup: system
 boot: auto
