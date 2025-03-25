@@ -1,27 +1,28 @@
-ARG BUILD_FROM
-FROM $BUILD_FROM
+FROM homeassistant/armv7-addon-base:latest
 
-# Copy root filesystem
-#COPY rootfs /
+# Establecer arquitectura (ajusta si es necesario para tu Raspberry Pi)
+ARCH=armv7
 
-# Setup requirements
-ARG BUILD_ARCH
-RUN set -x \
- && apk add --no-cache curl \
- && if [[ "${BUILD_ARCH}" = "aarch64" ]]; then ARCH="arm64"; fi \
- && curl -Lo /ngrok.zip https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-${ARCH}.zip \
- && unzip -o /ngrok.zip -d /bin \
- && rm -f /ngrok.zip
+# Variables de entorno
+ENV NGROK_VERSION=3
+ENV NGROK_PLATFORM=linux_${ARCH}
 
-# Initialize ngrok
-#RUN  ngrok --version
+# Instalar dependencias del sistema
+RUN apk add --no-cache bash curl
 
-# Instala dependencias necesarias
-RUN apk add --no-cache curl jq
+# Descargar y extraer Ngrok
+RUN curl -s -o /tmp/ngrok.zip https://bin.equinox.io/c/bNyj1mQVY4c/${NGROK_VERSION}/ngrok_${NGROK_PLATFORM}.zip \
+    && unzip /tmp/ngrok.zip -d /usr/local/bin/ \
+    && rm /tmp/ngrok.zip
 
-# Copia el script de ejecución
+# Hacer ejecutable
+RUN chmod +x /usr/local/bin/ngrok
+
+# Copiar script de ejecución
 COPY run.sh /run.sh
-RUN chmod +x /run.sh
 
-# Define el comando de inicio
-CMD ["/run.sh"]
+# Establecer permisos
+RUN chmod a+x /run.sh
+
+# Iniciar script al iniciar el contenedor
+CMD [ "/run.sh" ]
