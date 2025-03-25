@@ -1,3 +1,6 @@
+#!/bin/bash
+set -x
+
 #!/usr/bin/with-contenv bashio
 
 set -e
