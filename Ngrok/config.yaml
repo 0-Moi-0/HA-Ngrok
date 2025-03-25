@@ -1,25 +1,25 @@
-  name: "HA_Ngrok"
-  version: "2.0.1"
-  slug: "HA_Ngrok"
-  description: "Genera un túnel Ngrok en Home Assistant OS."
-  arch:
-    - armhf
-    - armv7
-    - aarch64
-  startup: application
-  boot: auto
-  options:
-    authtoken: ""  # Tu Authtoken de Ngrok
-    domain: ""     # Tu dominio personalizado
-  schema:
-    authtoken: str
-    domain: str
-  init: false
-  map:
-    - "config:rw"
-  privileged:
-    - "NET_ADMIN"
-  devices:
-    - "/dev/net/tun"
-  dockerfile: "Dockerfile"
-  run: "run.sh"
+name: "HA_Ngrok"
+version: "2.0.1"
+slug: "HA_Ngrok"
+description: "Genera un túnel Ngrok en Home Assistant OS."
+arch:
+  - armhf
+  - armv7
+  - aarch64
+startup: application
+boot: auto
+options:
+  authtoken: ""  # Tu Authtoken de Ngrok
+  domain: ""     # Tu dominio personalizado (opcional)
+schema:
+  authtoken: str
+  domain: str
+init: false
+map:
+  - "config:rw"
+privileged:
+  - "NET_ADMIN"
+devices:
+  - "/dev/net/tun"
+dockerfile: "Dockerfile"
+run: "run.sh"
