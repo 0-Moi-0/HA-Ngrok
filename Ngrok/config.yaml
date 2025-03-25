@@ -7,14 +7,16 @@
     - armhf
     - armv7
     - aarch64
-  startup: "application"
-  boot: "auto"
+  startup: application
+  boot: auto
   options:
     authtoken: ""  # Tu Authtoken de Ngrok
     domain: ""     # Tu dominio personalizado
   schema:
     authtoken: str
     domain: str
+  http:
+    server_port: 8123
   init: false
   map:
     - "config:rw"
