@@ -20,7 +20,7 @@
     "map": ["config", "ssl", "addons", "backup", "share"]
     "init": false,
     "devices": ["/dev/net/tun"],
-   # "dockerfile": "Dockerfile",
+    "dockerfile": "Dockerfile",
       "run": "run.sh"
 }, 
 
