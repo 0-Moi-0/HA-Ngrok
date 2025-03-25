@@ -1,98 +1,53 @@
 #!/usr/bin/with-contenv bashio
 
+set -e
 
-# Función para manejar el cierre del add-on
-shutdown() {
-  bashio::log.info "Cerrando el túnel Ngrok..."
-  killall ngrok
-  exit 0
+# Variables de configuración
+AUTHTOKEN=$(bashio::config 'authtoken')
+DOMAIN=$(bashio::config 'domain')
+LOG_FILE="/share/ngrok.log"
+
+# Función para iniciar el túnel Ngrok
+start_ngrok() {
+  echo "Iniciando túnel Ngrok..."
+  /usr/bin/ngrok tcp --authtoken="$AUTHTOKEN" --domain="$DOMAIN" 8123 >> "$LOG_FILE" 2>&1 &
+  echo "Túnel Ngrok iniciado en segundo plano. Logs en $LOG_FILE"
 }
 
-# Registrar la función de cierre
-trap shutdown SIGTERM SIGINT
-
-# Bucle principal
-while true; do
-  bashio::log.info "Iniciando Ngrok..."
-
-  # Matar instancias existentes de Ngrok
-  killall ngrok
-
-  # Determinar la arquitectura
-  ARCHITECTURE=$(get_architecture)
-
-  # Verificar si la arquitectura es soportada
-  if [ "$ARCHITECTURE" == "unknown" ]; then
-    bashio::log.error "Arquitectura no soportada."
-    exit 1
-  fi
-
-  # Configurar la URL de descarga de Ngrok
-  NGROK_VERSION=3
-  case "$ARCHITECTURE" in
-    armv7)
-      NGROK_PLATFORM="linux_armv7"
-      ;;
-    arm64)
-      NGROK_PLATFORM="linux_arm64"
-      ;;
-    amd64)
-      NGROK_PLATFORM="linux_amd64"
-      ;;
-    *)
-      bashio::log.error "Plataforma no soportada: $ARCHITECTURE"
-      exit 1
-      ;;
-  esac
-  NGROK_URL="https://bin.equinox.io/c/bNyj1mQVY4c/${NGROK_VERSION}/ngrok_${NGROK_PLATFORM}.zip"
-
-  # Descargar Ngrok
-  bashio::log.info "Descargando Ngrok desde $NGROK_URL..."
-  curl -s -o /tmp/ngrok.zip "$NGROK_URL"
-  if [ $? -ne 0 ]; then
-    bashio::log.error "Error al descargar Ngrok."
-    exit 1
-  fi
-
-  # Descomprimir Ngrok
-  bashio::log.info "Descomprimiendo Ngrok..."
-  unzip /tmp/ngrok.zip -d /usr/local/bin/
-  if [ $? -ne 0 ]; then
-    bashio::log.error "Error al descomprimir Ngrok."
-    exit 1
-  fi
-
-  # Limpiar
-  rm /tmp/ngrok.zip
-
-  # Hacer ejecutable
-  chmod +x /usr/local/bin/ngrok
-
-  # Construir el comando Ngrok
-  NGROK_COMMAND="/usr/local/bin/ngrok tcp 22" # Tunel SSH, se puede cambiar
-
-  if [ -n "$BASHIO_CONFIG_AUTHTOKEN" ]; then
-    NGROK_COMMAND="$NGROK_COMMAND --authtoken=$BASHIO_CONFIG_AUTHTOKEN"
-  fi
-
-  if [ -n "$BASHIO_CONFIG_SUBDOMAIN" ]; then
-    NGROK_COMMAND="$NGROK_COMMAND --hostname=$BASHIO_CONFIG_SUBDOMAIN"
-  fi
-
-  # Iniciar Ngrok en segundo plano
-  bashio::log.info "Ejecutando: $NGROK_COMMAND"
-  $NGROK_COMMAND &
-
-  # Esperar a que el proceso se complete (o falle)
+# Función para detener instancias anteriores de Ngrok
+stop_ngrok() {
+  echo "Deteniendo instancias anteriores de Ngrok..."
+  pkill ngrok
   wait
+  echo "Instancias de Ngrok detenidas."
+}
 
-  # Log del error (si lo hay)
-  if [ $? -ne 0 ]; then
-    bashio::log.error "Ngrok ha fallado. Reiniciando en 60 segundos..."
-  else
-    bashio::log.info "Ngrok se ha detenido. Reiniciando en 60 segundos..."
-  fi
+# Instalación de Ngrok
+install_ngrok() {
+  echo "Instalando Ngrok..."
+  wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-arm64.tgz
+  tar -xvzf ngrok-v3-stable-linux-arm64.tgz
+  mv ngrok /usr/bin/
+  rm ngrok-v3-stable-linux-arm64.tgz
+  echo "Ngrok instalado."
+}
 
-  # Esperar antes de reiniciar
-  sleep 60
+# Comprobar si ya está instalado
+if ! command -v ngrok &> /dev/null; then
+  install_ngrok
+fi
+
+# Main loop
+while true; do
+  # Detener cualquier instancia anterior de Ngrok
+  stop_ngrok
+
+  # Iniciar el túnel Ngrok
+  start_ngrok
+
+  # Esperar (por ejemplo, 24 horas) antes de reiniciar el túnel
+  # Esto es opcional, pero puede ayudar a mantener la conexión estable
+  sleep 86400 # 24 horas
+
+  echo "Reiniciando el túnel Ngrok..."
 done
