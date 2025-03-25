@@ -1,26 +1,5 @@
 #!/usr/bin/with-contenv bashio
 
-# Función para determinar la arquitectura
-get_architecture() {
-  arch=$(uname -m)
-  case "$arch" in
-    armv7l)
-      echo "armv7"
-      ;;
-    aarch64)
-      echo "arm64"
-      ;;
-    arm64)
-      echo "arm64"
-      ;;
-    x86_64)
-      echo "amd64"
-      ;;
-    *)
-      echo "unknown"
-      ;;
-  esac
-}
 
 # Función para manejar el cierre del add-on
 shutdown() {
