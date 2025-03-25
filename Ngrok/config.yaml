@@ -1,20 +1,19 @@
 name: Ngrok Tunnel
 version: "1.0.0"
 slug: ngrok_tunnel
-description: Crea un túnel seguro a tu instancia de Home Assistant usando Ngrok.
+description: Crea un túnel Ngrok para acceder a tu instancia de Home Assistant.
 arch:
-  - aarch64 
+  - aarch64
   - amd64
-  - armhf
   - armv7
   - i386
-url: "https://github.com/0-Moi-0/HA-Ngrok"  # Reemplaza con tu repositorio
-startup: system
-boot: auto
+init: false
+image: "0-moi-0/ha-ngrok-{ARCH}"
+map:
+  - config:rw
 options:
   authtoken: ""
-  subdomain: ""
+  domain: ""
 schema:
-  authtoken: str
-  subdomain: str?
-#image: "ghcr.io/0-Moi-0/HA-Ngrok-{arch}" # Reemplaza con tu usuario y repo
+  authtoken: str?
+  domain: str?
