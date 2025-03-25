@@ -1,27 +1,19 @@
 {
-    "name": "HA_Ngrok",
-    "version": "1.0.0",
-    "slug": "HA_Ngrok",
-    "description": "Genera un túnel Ngrok en Home Assistant OS.",
-    "arch": ["armv7", "armhf", "aarch64", "amd64", "i386"],
-    "startup": "application",
-    "boot": "auto",
-    "options": {
-      "authtoken": ""
-      "domain": ""
-    },
-    "schema": {
-      "authtoken": "str"
-      "domain": "str"
-    },
-  {
-    "privileged": ["NET_ADMIN", "SYS_ADMIN"],
-    "host_network": true,
-    "map": ["config", "ssl", "addons", "backup", "share"]
-    "init": false,
-    "devices": ["/dev/net/tun"],
-    "dockerfile": "Dockerfile",
-      "run": "run.sh"
-}, 
-
-  }
+  "name": "Ngrok Tunnel",
+  "version": "1.0.0",
+  "slug": "ngrok_tunnel",
+  "description": "Crea un túnel seguro a tu instancia de Home Assistant usando Ngrok.",
+  "arch": ["armv7"],  // Ajusta según tu Raspberry Pi
+  "url": "https://github.com/tu_usuario/tu_repo_ngrok_addon",  // Reemplaza con tu repositorio
+  "startup": "system",
+  "boot": "auto",
+  "options": {
+    "authtoken": "",
+    "subdomain": ""
+  },
+  "schema": {
+    "authtoken": "str",
+    "subdomain": "str?"
+  },
+  "image": "ghcr.io/tu_usuario/homeassistant-addon-ngrok-{arch}" // Reemplaza con tu usuario y repo
+}
