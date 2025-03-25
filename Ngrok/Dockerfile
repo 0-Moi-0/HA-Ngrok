@@ -1,10 +1,5 @@
-FROM homeassistant/aarch64-base:latest
-
-# Establecer arquitectura (ajusta si es necesario para tu Raspberry Pi)
-ARCH=aarch64
-
-# Variables de entorno
-ENV NGROK_PLATFORM=linux_${ARCH}
+ARG BUILD_FROM
+FROM $BUILD_FROM
 
 # Instalar dependencias del sistema
 RUN apk add --no-cache bash curl
