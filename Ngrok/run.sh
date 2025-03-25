@@ -1,8 +1,6 @@
-#!/bin/bash
-set -x
-
 #!/usr/bin/with-contenv bashio
 
+set -x  # Habilita el modo de depuración
 set -e
 
 # Variables de configuración
@@ -15,6 +13,7 @@ start_ngrok() {
   echo "Iniciando túnel Ngrok..."
   /usr/bin/ngrok tcp --authtoken="$AUTHTOKEN" --domain="$DOMAIN" 8123 >> "$LOG_FILE" 2>&1 &
   echo "Túnel Ngrok iniciado en segundo plano. Logs en $LOG_FILE"
+  echo "Estado del último comando: $?" # Imprime el código de salida
 }
 
 # Función para detener instancias anteriores de Ngrok
@@ -23,6 +22,7 @@ stop_ngrok() {
   pkill ngrok
   wait
   echo "Instancias de Ngrok detenidas."
+  echo "Estado del último comando: $?" # Imprime el código de salida
 }
 
 # Instalación de Ngrok
@@ -33,6 +33,7 @@ install_ngrok() {
   mv ngrok /usr/bin/
   rm ngrok-v3-stable-linux-arm64.tgz
   echo "Ngrok instalado."
+  echo "Estado del último comando: $?" # Imprime el código de salida
 }
 
 # Comprobar si ya está instalado
