@@ -1,37 +1,48 @@
-#!/bin/sh
+#!/usr/bin/with-contenv bashio
 
-CONFIG_PATH=/data/options.json
+# Función para manejar el cierre del add-on
+shutdown() {
+  bashio::log.info "Cerrando el túnel Ngrok..."
+  killall ngrok
+  exit 0
+}
 
-# Leer opciones del complemento
-authtoken=$(jq --raw-output '.authtoken' "$CONFIG_PATH")
-domain=$(jq --raw-output '.domain' "$CONFIG_PATH")
+# Registrar la función de cierre
+trap shutdown SIGTERM SIGINT
 
-# Authenticate
-if [ -n "$authtoken" ]; then
-  /usr/local/bin/ngrok authtoken "$authtoken"
-  if [ $? -ne 0 ]; then
-    echo "Error: Failed to authenticate with ngrok using authtoken.  Check your authtoken."
-    exit 1
-  fi
-else
-  echo "Error: No authtoken provided.  Please configure the addon."
-  exit 1
-fi
-
-# Start tunnel
-if [ -n "$domain" ]; then
-  /usr/local/bin/ngrok tcp 8123 --hostname="$domain" --region=auto
-else
-  /usr/local/bin/ngrok tcp 8123 --region=auto
-fi
-
-if [ $? -ne 0 ]; then
-  echo "Error: Failed to start ngrok tunnel. Check your ngrok configuration or account."
-  exit 1
-fi
-
-echo "Ngrok tunnel started successfully"
-
+# Bucle principal
 while true; do
-    sleep 3600 # Mantener el script en ejecución
+  bashio::log.info "Iniciando Ngrok..."
+
+  # Matar instancias existentes de Ngrok
+  killall ngrok
+
+  # Construir el comando Ngrok
+  NGROK_COMMAND="/usr/local/bin/ngrok tcp 22" # tunel SSH, se puede cambiar
+  #NGROK_COMMAND="/usr/local/bin/ngrok http 8123" # tunel WEB
+
+  if [ -n "$BASHIO_CONFIG_AUTHTOKEN" ]; then
+    NGROK_COMMAND="$NGROK_COMMAND --authtoken=$BASHIO_CONFIG_AUTHTOKEN"
+  fi
+
+  if [ -n "$BASHIO_CONFIG_SUBDOMAIN" ]; then
+    NGROK_COMMAND="$NGROK_COMMAND --hostname=$BASHIO_CONFIG_SUBDOMAIN"
+  fi
+
+  # Iniciar Ngrok en segundo plano
+  bashio::log.info "Ejecutando: $NGROK_COMMAND"
+  $NGROK_COMMAND &
+
+  # Esperar a que el proceso se complete (o falle)
+  wait
+
+  # Log del error (si lo hay)
+  if [ $? -ne 0 ]; then
+    bashio::log.error "Ngrok ha fallado. Reiniciando en 60 segundos..."
+  else
+    bashio::log.info "Ngrok se ha detenido. Reiniciando en 60 segundos..."
+  fi
+
+  # Esperar antes de reiniciar
+  sleep 60
 done
