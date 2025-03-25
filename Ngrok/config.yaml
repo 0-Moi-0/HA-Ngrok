@@ -19,7 +19,6 @@
   init: false
   map:
     - "config:rw"
-  host_network: true
   privileged:
     - "NET_ADMIN"
   devices:
