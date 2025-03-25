@@ -1,10 +1,9 @@
-FROM homeassistant/armv7-addon-base:latest
+FROM homeassistant/aarch64-base:latest
 
 # Establecer arquitectura (ajusta si es necesario para tu Raspberry Pi)
-ARCH=armv7
+ARCH=aarch64
 
 # Variables de entorno
-ENV NGROK_VERSION=3
 ENV NGROK_PLATFORM=linux_${ARCH}
 
 # Instalar dependencias del sistema
