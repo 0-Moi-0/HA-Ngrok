@@ -14,8 +14,6 @@
   schema:
     authtoken: str
     domain: str
-  http:
-    server_port: 8123
   init: false
   map:
     - "config:rw"
