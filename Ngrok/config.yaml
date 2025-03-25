@@ -17,4 +17,4 @@ options:
 schema:
   authtoken: str
   subdomain: str?
-image: "ghcr.io/0-Moi-0/HA-Ngrok-{arch}" # Reemplaza con tu usuario y repo
+#image: "ghcr.io/0-Moi-0/HA-Ngrok-{arch}" # Reemplaza con tu usuario y repo
