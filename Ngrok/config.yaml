@@ -6,6 +6,8 @@ arch:
   - armhf
   - armv7
   - aarch64
+  - amd64
+  - i386
 startup: application
 boot: auto
 options:
@@ -23,3 +25,4 @@ devices:
   - "/dev/net/tun"
 dockerfile: "Dockerfile"
 run: "run.sh"
+host_network: true
