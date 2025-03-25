@@ -6,6 +6,9 @@ RUN \
     curl -sSLf -o /usr/bin/tempio \
     "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}"
 
+# Instala bashio
+RUN apk add --no-cache bash
+
 # Copia el script de ejecución
 COPY run.sh /run.sh
 
